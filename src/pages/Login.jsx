@@ -33,8 +33,6 @@ const Login = () => {
       const handleRegistration =  (type) => {
         const inputData = type === "signup" ? signupInput : loginInput;
         console.log(inputData);
-        // const action = type === "signup" ? registerUser : loginUser;
-        // await action(inputData);
       };
 
   return (
