@@ -2,6 +2,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import Navbar from "./components/navbar";
 import HeroSection from "./pages/student/HeroSection";
+import Courses from "./pages/student/Courses";
 import MainLayout from "./layout/MainLayout";
 import { RouterProvider,createBrowserRouter } from "react-router-dom";
 
@@ -15,7 +16,7 @@ const appRouter = createBrowserRouter([
         element: (
           <>
             <HeroSection />
-            {/* <Courses /> */}
+            <Courses />
           </>
         ),
       },
