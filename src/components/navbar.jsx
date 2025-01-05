@@ -12,6 +12,7 @@ import {
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import DarkMode from "@/DarkMode";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Sheet,
   SheetClose,
@@ -24,7 +25,9 @@ import {
 import { Separator } from "@radix-ui/react-dropdown-menu";
 
 const Navbar = () => {
-  const user = true;
+  const user = localStorage.getItem("authToken") !== null;
+  const navigate = useNavigate();
+
   return (
     <div className="h-16 dark:bg-[#020817] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10 px-10">
       {/* desktop */}
@@ -55,7 +58,16 @@ const Navbar = () => {
                 <DropdownMenuGroup>
                   <DropdownMenuItem>My Learning</DropdownMenuItem>
                   <DropdownMenuItem>Edit Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <span
+                      onClick={() => {
+                        localStorage.removeItem("authToken");
+                        navigate("/login");
+                      }}
+                    >
+                      Logout
+                    </span>
+                  </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
 
@@ -64,7 +76,9 @@ const Navbar = () => {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant="outline">Login</Button>
+              <Link to="/login">
+                <Button variant="outline">Login</Button>
+              </Link>
               <Button>Signup</Button>
             </div>
           )}
@@ -84,7 +98,7 @@ const Navbar = () => {
 export default Navbar;
 
 const MobileNavbar = ({ user }) => {
-  const role="instructor"
+  const role = "instructor";
 
   return (
     <Sheet>
@@ -106,7 +120,14 @@ const MobileNavbar = ({ user }) => {
         <nav className="flex flex-col space-y-4">
           <span>My Learning</span>
           <span>Edit Profile</span>
-          <span>Logout</span>
+          <span
+            onClick={() => {
+              localStorage.removeItem("authToken");
+              navigate("/login");
+            }}
+          >
+            Logout
+          </span>
         </nav>
         {role == "instructor" && (
           <SheetFooter>
