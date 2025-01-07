@@ -40,3 +40,19 @@ export const getProfile = async () => {
     throw error;
   }
 };
+
+export const updateProfile = async (updatedData) => {
+  try {
+    const response = await axios.put(`${API_URL}/profile-update`,
+      updatedData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
+    return response; // return the response object
+  } catch (error) {
+    throw error; // throw error if API call fails
+  }
+};

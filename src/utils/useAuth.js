@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { register, login, getProfile } from "../api/auth";
+import { register, login, getProfile, updateProfile } from "../api/auth"; // Ensure updateProfile is imported
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -18,41 +17,50 @@ export const useAuth = () => {
       } else {
         response = await login(data);  // Handle login request
       }
-  
+
       if (response.status === 200 || response.status === 201) {
-        // Check if the response contains user info and show success message
         toast.success(`Welcome back ${response.data.user?.name || "User"}!`);
-  
-        // Add a delay for the toast, then navigate
         setTimeout(() => {
-          navigate("/"); // Navigate after 1 second
-          // window.location.reload(); // Optional: to reload the page and reflect navbar changes
-        }, 1000); // Delay for toast and navigation
+          navigate("/");
+        }, 1000);
       } else {
         toast.success(response.data.message || `${type.charAt(0).toUpperCase() + type.slice(1)} successful.`);
       }
     } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.message || `${type.charAt(0).toUpperCase() + type.slice(1)} failed.`);
-      } else {
-        toast.error("An error occurred, please try again.");
-      }
+      toast.error(error.response?.data?.message || `${type.charAt(0).toUpperCase() + type.slice(1)} failed.`);
     } finally {
       setLoading(false); // End loading
     }
-};
+  };
 
-const fetchUserProfile = async () => {
-  try {
-    const response = await getProfile();
+  const fetchUserProfile = async () => {
+    try {
+      const response = await getProfile();
+      setUser(response.data); // Store the user data
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to load profile.");
+    }
+  };
 
-    setUser(response.data); // Store the user data
-    console.log('Fetched user profile:', response.data); // Log the full response
-  } catch (error) {
-    console.error('Error fetching profile:', error.response?.data || error.message);
-  }
-};
+  // Handle profile updates
+  const handleProfileUpdate = async (updatedData) => {
+    setLoading(true);
+    try {
+      const response = await updateProfile(updatedData);
+      if (response.status === 200) {
+        toast.success("Profile updated successfully!");
+        setUser(response.data);
+    //     const navigate = useNavigate();
+    // navigate('/profile');
+      } else {
+        toast.error(response.data.message || "Profile update failed.");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error updating profile.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  
-  return { handleAuth, fetchUserProfile, loading, user };
+  return { handleAuth, fetchUserProfile, handleProfileUpdate, loading, user };
 };
