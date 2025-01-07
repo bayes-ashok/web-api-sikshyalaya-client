@@ -25,7 +25,7 @@ import {
 import { Separator } from "@radix-ui/react-dropdown-menu";
 
 const Navbar = () => {
-  const user = localStorage.getItem("authToken") !== null;
+  const user = true;
   const navigate = useNavigate();
 
   return (

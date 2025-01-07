@@ -12,12 +12,26 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
-import React from "react";
+import React,{useEffect} from "react";
 import Course from "./Course";
+import { useAuth } from "@/utils/useAuth";
 
 const Profile = () => {
   const isLoading = false;
   const enrolledCourses = [1, 2, 3];
+  const { fetchUserProfile, user } = useAuth();
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  // Log the user data when it's updated
+  useEffect(() => {
+    console.log('Fetched user data:', user);
+
+  }, [user]); // Make sure navigate is added to the dependencies
+
+
   return (
     <div className="max-w-4xl mx-auto px-4 my-24">
       <h1 className="font-bold text-2xl text-center md:text-left">PROFILE</h1>
