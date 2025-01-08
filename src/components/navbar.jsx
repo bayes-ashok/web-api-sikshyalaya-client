@@ -1,5 +1,5 @@
 import { Menu, School } from "lucide-react";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,10 +23,20 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import { useAuth } from "@/utils/useAuth";
+import { AuthContext } from "@/context/authContext";
 
 const Navbar = () => {
-  const user = true;
+  // const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+  // const { fetchUserProfile, user } = useAuth();
+  const { user, isAuthenticated, loading } = useContext(AuthContext);
+
+  if(isAuthenticated){
+    console.log("AUTHENTICATED")
+  }
+  
+
 
   return (
     <div className="h-16 dark:bg-[#020817] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10 px-10">
@@ -41,7 +51,7 @@ const Navbar = () => {
 
         {/* user icon and dark mode */}
         <div className="flex items-center gap-8">
-          {user ? (
+          {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar>
@@ -56,8 +66,12 @@ const Navbar = () => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem><Link to="my-learning">My Learning</Link></DropdownMenuItem>
-                  <DropdownMenuItem><Link to="profile">Edit Profile</Link></DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="my-learning">My Learning</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="profile">Edit Profile</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>
                     <span
                       onClick={() => {

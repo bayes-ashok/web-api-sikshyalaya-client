@@ -6,8 +6,8 @@ import { Provider } from "react-redux";
 import { Toaster } from "../src/components/ui/sonner";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <>
       <App />
       <Toaster></Toaster>
-  </StrictMode>
+  </>
 );
