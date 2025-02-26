@@ -6,6 +6,7 @@ function RouteGuard({ authenticated, user, element }) {
 
   console.log(authenticated, user, "useruser");
 
+  
   if (!authenticated && !location.pathname.includes("/auth")) {
     return <Navigate to="/auth" />;
   }
