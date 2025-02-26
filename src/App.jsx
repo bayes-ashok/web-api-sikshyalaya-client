@@ -1,55 +1,25 @@
-import "./App.css";
-import Login from "./pages/Login";
-import Navbar from "./components/navbar";
-import HeroSection from "./pages/student/HeroSection";
-import Courses from "./pages/student/Courses";
-import MainLayout from "./layout/MainLayout";
-import { RouterProvider,createBrowserRouter } from "react-router-dom";
-import MyLearning from "./pages/student/MyLearning";
-import Profile from "./pages/student/Profile";
+import { Route, Routes } from "react-router-dom";
+import AuthPage from "./pages/auth";
+import RouteGuard from "./components/route-guard";
+import { useContext } from "react";
+import { AuthContext } from "./context/auth-context";
 
-const appRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
-      {
-        path: "/",
-        element: (
-          <>
-            <HeroSection />
-            <Courses />
-          </>
-        ),
-      },
-      {
-        path: "login",
-        element: (
-          // <AuthenticatedUser>
-            <Login />
-          // </AuthenticatedUser>
-        ),
-      },
-      {
-        path: "my-learning",
-        element: <MyLearning/>  
-      },
-      {
-        path: "profile",
-        element: <Profile/>  
-      },
-    ],
-  },
-]);
 function App() {
-  return (
-    <main>
-      {/* <HeroSection></HeroSection>
-      <Navbar></Navbar>
-      <Login></Login> */}
+  const { auth } = useContext(AuthContext);
 
-      <RouterProvider router={appRouter}></RouterProvider>
-    </main>
+  return (
+    <Routes>
+      <Route
+        path="/auth"
+        element={
+          <RouteGuard
+            element={<AuthPage />}
+            authenticated={auth?.authenticate}
+            user={auth?.user}
+          />
+        }
+      />
+    </Routes>
   );
 }
 
