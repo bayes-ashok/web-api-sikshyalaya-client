@@ -14,7 +14,8 @@ import PaypalPaymentReturnPage from "./pages/student/payment-return/paypal";
 import PaymentReturnPage from "./pages/student/payment-return";
 import StudentCoursesPage from "./pages/student/student-courses";
 import StudentViewCourseProgressPage from "./pages/student/course-progress";
-
+import QuizList from "./components/student-view/Quiz";
+import QuizPlay from "./components/student-view/Quiz-Play";
 function App() {
   const { auth } = useContext(AuthContext);
 
@@ -80,6 +81,8 @@ function App() {
         <Route path="payment-return" element={<PaymentReturnPage />} />
         <Route path="paypal-return" element={<PaypalPaymentReturnPage />} />
         <Route path="student-courses" element={<StudentCoursesPage />} />
+        <Route path="quiz" element={<QuizList />} />
+        <Route path="/quiz/:quizSetId" element={<QuizPlay />} />
         <Route
           path="course-progress/:id"
           element={<StudentViewCourseProgressPage />}
