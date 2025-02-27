@@ -13,6 +13,8 @@ const QuizPlay = () => {
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [reviewMode, setReviewMode] = useState(false);
   const [reviewIndex, setReviewIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(60); // 1-minute timer
+  const [timerRunning, setTimerRunning] = useState(true);
 
   useEffect(() => {
     axios
@@ -26,6 +28,22 @@ const QuizPlay = () => {
         console.error("Error fetching questions:", error);
       });
   }, [quizSetId]);
+
+  // Timer logic: stops when quiz is submitted
+  useEffect(() => {
+    if (timeLeft <= 0 && timerRunning) {
+      handleSubmit(); // Auto-submit when time runs out
+      return;
+    }
+
+    if (timerRunning) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft, timerRunning]);
 
   const handleNextQuestion = () => {
     const correctAnswer = questions[currentIndex].correctAnswer;
@@ -48,8 +66,26 @@ const QuizPlay = () => {
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      setShowResults(true);
+      handleSubmit(); // Submit when last question is answered
     }
+  };
+
+  // Handles quiz submission (stops timer, enables review)
+  const handleSubmit = () => {
+    setTimerRunning(false); // Stop timer
+    setShowResults(true);
+
+    // Store unanswered questions as wrong but without a red mark
+    questions.forEach((q, index) => {
+      if (!wrongAnswers.find((w) => w.question === q.question) && index >= currentIndex) {
+        wrongAnswers.push({
+          question: q.question,
+          options: q.options,
+          selectedIndex: null, // No selection
+          correctIndex: q.correctAnswer,
+        });
+      }
+    });
   };
 
   const handleNextMistake = () => {
@@ -66,11 +102,21 @@ const QuizPlay = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-6 flex flex-col items-center">
-      <h2 className="text-3xl font-bold text-center mb-6">Quiz</h2>
+      {/* Show Progress & Timer */}
+      <div className="flex justify-between items-center w-full max-w-lg">
+        <h2 className="text-xl font-semibold">
+          Question {currentIndex + 1} of {questions.length}
+        </h2>
+        {!showResults && (
+          <p className="text-xl font-semibold text-red-600">
+            ⏳ {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, "0")}
+          </p>
+        )}
+      </div>
 
       {/* Quiz Mode */}
       {!showResults && !reviewMode && (
-        <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-lg">
+        <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-lg mt-4">
           <h3 className="text-xl font-semibold mb-4">{questions[currentIndex].question}</h3>
           <div className="space-y-2">
             {questions[currentIndex].options.map((option, index) => (
@@ -104,7 +150,7 @@ const QuizPlay = () => {
           <p className="text-lg mt-3">
             Your Score: <span className="font-bold">{score} / {questions.length}</span>
           </p>
-          
+
           {wrongAnswers.length > 0 ? (
             <button
               className="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded"
@@ -115,8 +161,6 @@ const QuizPlay = () => {
             >
               Review Mistakes
             </button>
-            
-            
           ) : (
             <button
               className="mt-6 bg-gray-700 hover:bg-gray-800 text-white px-6 py-2 rounded"
@@ -125,17 +169,10 @@ const QuizPlay = () => {
               Back to Quiz List
             </button>
           )}
-          <br></br>
-          <button
-          className="mt-6 bg-gray-700 hover:bg-gray-800 text-white px-6 py-2 rounded"
-          onClick={() => navigate("/quiz")}
-        >
-          Back to Quiz List
-        </button>
         </div>
       )}
 
-      {/* Review Mode: Show mistakes one by one with correct spacing, border, and icons */}
+      {/* Review Mode */}
       {reviewMode && (
         <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-lg">
           <h3 className="text-xl font-semibold text-red-600 mb-4">Review Mistakes</h3>
@@ -147,9 +184,9 @@ const QuizPlay = () => {
                 key={i}
                 className={`flex justify-between items-center p-4 rounded-lg text-lg font-semibold border-2 ${
                   i === wrongAnswers[reviewIndex].correctIndex
-                    ? "bg-green-500 text-white border-green-700" // Correct answer ✅
+                    ? "bg-green-500 text-white border-green-700" // Correct ✅
                     : i === wrongAnswers[reviewIndex].selectedIndex
-                    ? "bg-red-500 text-white border-black" // Wrong answer ❌ + Black Border
+                    ? "bg-red-500 text-white border-black" // Wrong ❌
                     : "bg-gray-300 text-gray-800 border-gray-400" // Neutral (Gray)
                 }`}
               >
@@ -157,7 +194,7 @@ const QuizPlay = () => {
                 {i === wrongAnswers[reviewIndex].correctIndex ? (
                   <span className="text-xl font-bold">✅</span>
                 ) : i === wrongAnswers[reviewIndex].selectedIndex ? (
-                  <span className="text-xl font-bold text-black">✖</span> // Black cross ❌
+                  <span className="text-xl font-bold text-black">❌</span>
                 ) : null}
               </div>
             ))}
