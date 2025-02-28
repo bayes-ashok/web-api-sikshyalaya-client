@@ -16,6 +16,7 @@ import StudentCoursesPage from "./pages/student/student-courses";
 import StudentViewCourseProgressPage from "./pages/student/course-progress";
 import QuizList from "./components/student-view/Quiz";
 import QuizPlay from "./components/student-view/Quiz-Play";
+import AdminQuizPanel from "./components/instructor-view/dashboard/admin-quiz-panel";
 function App() {
   const { auth } = useContext(AuthContext);
 
@@ -36,6 +37,16 @@ function App() {
         element={
           <RouteGuard
             element={<InstructorDashboardpage />}
+            authenticated={auth?.authenticate}
+            user={auth?.user}
+          />
+        }
+      />
+      <Route
+        path="/instructor/create-quiz"
+        element={
+          <RouteGuard
+            element={<AdminQuizPanel />}
             authenticated={auth?.authenticate}
             user={auth?.user}
           />
