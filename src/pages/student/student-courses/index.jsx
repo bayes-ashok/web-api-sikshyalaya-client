@@ -25,41 +25,56 @@ function StudentCoursesPage() {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-bold mb-8">My Courses</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {studentBoughtCoursesList && studentBoughtCoursesList.length > 0 ? (
-          studentBoughtCoursesList.map((course) => (
-            <Card key={course.id} className="flex flex-col">
-              <CardContent className="p-4 flex-grow">
-                <img
-                  src={course?.courseImage}
-                  alt={course?.title}
-                  className="h-52 w-full object-cover rounded-md mb-4"
-                />
-                <h3 className="font-bold mb-1">{course?.title}</h3>
-                <p className="text-sm text-gray-700 mb-2">
-                  {course?.instructorName}
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Button
-                  onClick={() =>
-                    navigate(`/course-progress/${course?.courseId}`)
-                  }
-                  className="flex-1"
-                >
-                  <Watch className="mr-2 h-4 w-4" />
-                  Start Watching
-                </Button>
-              </CardFooter>
-            </Card>
-          ))
-        ) : (
-          <h1 className="text-3xl font-bold">No Courses found</h1>
-        )}
+    <div className="p-8 bg-gray-50 min-h-screen">
+  <h1 className="text-4xl font-bold text-gray-900 mb-8">My Courses</h1>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {studentBoughtCoursesList && studentBoughtCoursesList.length > 0 ? (
+      studentBoughtCoursesList.map((course) => (
+        <Card
+          key={course.id}
+          className="flex flex-col rounded-xl overflow-hidden shadow-md border border-gray-300 bg-white transition-transform transform hover:scale-[1.02] hover:shadow-lg"
+        >
+          <CardContent className="p-5 flex-grow">
+            {/* Course Image */}
+            <div className="relative w-full h-44 rounded-lg overflow-hidden border border-gray-200">
+              <img
+                src={course?.courseImage}
+                alt={course?.title}
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+
+            {/* Course Title & Instructor */}
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {course?.title}
+              </h3>
+              <p className="text-sm text-gray-700">{course?.instructorName}</p>
+            </div>
+          </CardContent>
+
+          {/* Footer with Start Watching Button */}
+          <CardFooter className="p-4 border-t border-gray-300 bg-gray-50">
+            <Button
+              onClick={() => navigate(`/course-progress/${course?.courseId}`)}
+              className="w-full flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 transition px-4 py-2 rounded-lg"
+            >
+              <Watch className="mr-2 h-4 w-4" />
+              Start Watching
+            </Button>
+          </CardFooter>
+        </Card>
+      ))
+    ) : (
+      <div className="col-span-full flex flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold text-gray-800">No Courses Found</h1>
+        <p className="text-gray-600 mt-2">You haven't enrolled in any courses yet.</p>
       </div>
-    </div>
+    )}
+  </div>
+</div>
+
   );
 }
 
