@@ -41,8 +41,6 @@ function InstructorDashboard({ listOfCourses }) {
     };
   }
 
-  console.log(calculateTotalStudentsAndProfit());
-
   const config = [
     {
       icon: Users,
@@ -52,52 +50,87 @@ function InstructorDashboard({ listOfCourses }) {
     {
       icon: DollarSign,
       label: "Total Revenue",
-      value: calculateTotalStudentsAndProfit().totalProfit,
+      value: `$${calculateTotalStudentsAndProfit().totalProfit}`,
     },
   ];
 
   return (
-    <div>
+    <div className="p-8 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100">
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {config.map((item, index) => (
-          <Card key={index}>
+          <Card
+            key={index}
+            className="bg-white/10 backdrop-blur-md shadow-xl p-6 rounded-lg"
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-lg font-semibold text-gray-100">
                 {item.label}
               </CardTitle>
-              <item.icon className="h-4 w-4 text-muted-foreground" />
+              <item.icon className="h-6 w-6 text-gray-300" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{item.value}</div>
+              <div className="text-3xl font-bold text-white">{item.value}</div>
             </CardContent>
           </Card>
         ))}
       </div>
-      <Card>
+
+      {/* Students List Table */}
+      <Card className="bg-white/10 backdrop-blur-md shadow-xl p-6 rounded-lg">
         <CardHeader>
-          <CardTitle>Students List</CardTitle>
+          <CardTitle className="text-gray-100 text-2xl font-bold">
+            Students List
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="bg-white p-1 rounded">
           <div className="overflow-x-auto">
-            <Table className="w-full">
-              <TableHeader>
+            <Table className="w-full border border-gray-700 rounded-lg overflow-hidden">
+              <TableHeader className="bg-gray-900 text-white">
                 <TableRow>
-                  <TableHead>Course Name</TableHead>
-                  <TableHead>Student Name</TableHead>
-                  <TableHead>Student Email</TableHead>
+                  <TableHead className="p-4 text-left text-white font-bold">
+                    Course Name
+                  </TableHead>
+                  <TableHead className="p-4 text-left text-white font-bold">
+                    Student Name
+                  </TableHead>
+                  <TableHead className="p-4 text-left text-white font-bold">
+                    Student Email
+                  </TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
-                {calculateTotalStudentsAndProfit().studentList.map(
-                  (studentItem, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium">
-                        {studentItem.courseTitle}
-                      </TableCell>
-                      <TableCell>{studentItem.studentName}</TableCell>
-                      <TableCell>{studentItem.studentEmail}</TableCell>
-                    </TableRow>
+                {calculateTotalStudentsAndProfit().studentList.length > 0 ? (
+                  calculateTotalStudentsAndProfit().studentList.map(
+                    (studentItem, index) => (
+                      <TableRow
+                        key={index}
+                        className={`border-b border-gray-700 ${
+                          index % 2 === 0 ? "bg-gray-700" : "bg-gray-800"
+                        } hover:bg-gray-600 transition`}
+                      >
+                        <TableCell className="p-4 font-medium text-gray-100">
+                          {studentItem.courseTitle}
+                        </TableCell>
+                        <TableCell className="p-4 text-gray-100">
+                          {studentItem.studentName}
+                        </TableCell>
+                        <TableCell className="p-4 text-gray-100">
+                          {studentItem.studentEmail}
+                        </TableCell>
+                      </TableRow>
+                    )
                   )
+                ) : (
+                  <TableRow className="bg-gray-800">
+                    <TableCell
+                      colSpan="3"
+                      className="p-4 text-center text-gray-400"
+                    >
+                      No students enrolled yet.
+                    </TableCell>
+                  </TableRow>
                 )}
               </TableBody>
             </Table>
