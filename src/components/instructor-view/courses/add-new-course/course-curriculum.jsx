@@ -12,7 +12,7 @@ import {
   mediaDeleteService,
   mediaUploadService,
 } from "@/services";
-import { Upload } from "lucide-react";
+import { Upload, FileVideo, Trash2 } from "lucide-react";
 import { useContext, useRef } from "react";
 
 function CourseCurriculum() {
@@ -81,7 +81,8 @@ function CourseCurriculum() {
         <CardHeader className="flex flex-row justify-between">
           <CardTitle className="text-gray-100">Create Course Curriculum</CardTitle>
           <div>
-            <Input
+            {/* Styled Media Picker */}
+            <input
               type="file"
               ref={bulkUploadInputRef}
               accept="video/*"
@@ -93,10 +94,9 @@ function CourseCurriculum() {
             <Button
               as="label"
               htmlFor="bulk-media-upload"
-              variant="outline"
-              className="cursor-pointer bg-gray-700 hover:bg-gray-600 text-white"
+              className="cursor-pointer bg-gray-700 hover:bg-gray-600 text-white flex items-center px-4 py-2 rounded-lg"
             >
-              <Upload className="w-4 h-5 mr-2" />
+              <Upload className="w-5 h-5 mr-2" />
               Bulk Upload
             </Button>
           </div>
@@ -117,15 +117,21 @@ function CourseCurriculum() {
           )}
           <div className="mt-4 space-y-4">
             {courseCurriculumFormData.map((curriculumItem, index) => (
-              <div key={index} className="border p-5 rounded-md bg-white/90">
-                <div className="flex gap-5 items-center">
-                  <h3 className="font-semibold text-gray-800">
+              <div
+                key={index}
+                className={`border p-6 rounded-lg ${
+                  index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
+                }`}
+              >
+                <div className="flex flex-col md:flex-row gap-5 items-start md:items-center">
+                  <h3 className="font-semibold text-gray-100">
                     Lecture {index + 1}
                   </h3>
+                  {/* Updated Text Box for Better Visibility */}
                   <Input
                     name={`title-${index + 1}`}
                     placeholder="Enter lecture title"
-                    className="max-w-96"
+                    className="w-full md:max-w-96 bg-gray-800 text-white border border-gray-700 px-4 py-2 rounded-lg"
                     onChange={(event) => {
                       let updatedCurriculum = [...courseCurriculumFormData];
                       updatedCurriculum[index].title = event.target.value;
@@ -134,6 +140,7 @@ function CourseCurriculum() {
                     value={courseCurriculumFormData[index]?.title}
                   />
                   <div className="flex items-center space-x-2">
+                    {/* Fully Fixed Free Preview Switch Visibility */}
                     <Switch
                       onCheckedChange={(value) => {
                         let updatedCurriculum = [...courseCurriculumFormData];
@@ -142,37 +149,52 @@ function CourseCurriculum() {
                       }}
                       checked={courseCurriculumFormData[index]?.freePreview}
                       id={`freePreview-${index + 1}`}
-                    />
-                    <Label htmlFor={`freePreview-${index + 1}`} className="text-gray-800">
+                      className="data-[state=unchecked]:bg-gray-500 data-[state=checked]:bg-green-800 border-black-500"
+                      />
+                    <Label htmlFor={`freePreview-${index + 1}`} className="text-gray-100">
                       Free Preview
                     </Label>
                   </div>
                 </div>
                 <div className="mt-6">
                   {courseCurriculumFormData[index]?.videoUrl ? (
-                    <div className="flex gap-3">
+                    <div className="flex flex-col md:flex-row gap-4">
                       <VideoPlayer
                         url={courseCurriculumFormData[index]?.videoUrl}
                         width="450px"
                         height="200px"
                       />
-                      <Button className="bg-yellow-500 hover:bg-yellow-600 text-white">
-                        Replace Video
-                      </Button>
-                      <Button
-                        onClick={() => handleDeleteLecture(index)}
-                        className="bg-red-500 hover:bg-red-600 text-white"
-                      >
-                        Delete Lecture
-                      </Button>
+                      <div className="flex flex-col gap-2">
+                        <Button className="bg-yellow-500 hover:bg-yellow-600 text-white">
+                          Replace Video
+                        </Button>
+                        <Button
+                          onClick={() => handleDeleteLecture(index)}
+                          className="bg-red-500 hover:bg-red-600 text-white flex items-center gap-2"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                          Delete Lecture
+                        </Button>
+                      </div>
                     </div>
                   ) : (
-                    <Input
-                      type="file"
-                      accept="video/*"
-                      onChange={(event) => handleSingleLectureUpload(event, index)}
-                      className="mb-4"
-                    />
+                    <div className="flex flex-col">
+                      {/* Improved File Input for Better UI */}
+                      <label
+                        htmlFor={`video-upload-${index}`}
+                        className="flex items-center justify-center w-full px-4 py-3 text-gray-100 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600"
+                      >
+                        <FileVideo className="w-5 h-5 mr-2" />
+                        Upload Video
+                      </label>
+                      <input
+                        id={`video-upload-${index}`}
+                        type="file"
+                        accept="video/*"
+                        onChange={(event) => handleSingleLectureUpload(event, index)}
+                        className="hidden"
+                      />
+                    </div>
                   )}
                 </div>
               </div>
