@@ -49,22 +49,22 @@ const AdminQuizPanel = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-6">
+    <div className="p-8 max-w-4xl mx-auto space-y-6 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100">
       {!quizSetId ? (
-        <Card className="p-8 shadow-xl rounded-2xl">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Create Quiz Set</h2>
+        <Card className="p-8 shadow-xl rounded-2xl bg-white/10 backdrop-blur-md">
+          <h2 className="text-2xl font-semibold text-gray-100 mb-4">Create Quiz Set</h2>
           <form onSubmit={handleSubmit(createQuizSet)} className="space-y-4">
             <div className="space-y-2">
-              <Label>Quiz Title</Label>
-              <Input {...register("title", { required: true })} placeholder="Enter quiz title" />
+              <Label className="text-gray-300">Quiz Title</Label>
+              <Input {...register("title", { required: true })} placeholder="Enter quiz title" className="bg-gray-800 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
             </div>
             <div className="space-y-2">
-              <Label>Category</Label>
-              <Input {...register("category", { required: true })} placeholder="Enter category" />
+              <Label className="text-gray-300">Category</Label>
+              <Input {...register("category", { required: true })} placeholder="Enter category" className="bg-gray-800 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
             </div>
             <div className="space-y-2">
-              <Label>Description</Label>
-              <Textarea {...register("description", { required: true })} placeholder="Enter description" />
+              <Label className="text-gray-300">Description</Label>
+              <Textarea {...register("description", { required: true })} placeholder="Enter description" className="bg-gray-800 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
             </div>
             <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 transition rounded-lg">
               Create Quiz Set
@@ -72,8 +72,8 @@ const AdminQuizPanel = () => {
           </form>
         </Card>
       ) : (
-        <Card className="p-8 shadow-xl rounded-2xl">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Add Questions</h2>
+        <Card className="p-8 shadow-xl rounded-2xl bg-white/10 backdrop-blur-md">
+          <h2 className="text-2xl font-semibold text-gray-100 mb-4">Add Questions</h2>
           <form onSubmit={handleSubmit(addQuestions)} className="space-y-6">
             {fields.map((item, index) => (
               <motion.div 
@@ -81,31 +81,32 @@ const AdminQuizPanel = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="p-6 border rounded-xl shadow-sm space-y-4 bg-gray-50"
+                className="p-6 border rounded-xl shadow-sm space-y-4 bg-gray-800 border-gray-700"
               >
                 <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-medium text-gray-700">Question {index + 1}</h3>
+                  <h3 className="text-lg font-medium text-gray-300">Question {index + 1}</h3>
                   <Button 
                     type="button" 
                     onClick={() => remove(index)} 
-                    className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg"
+                    className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg"
                   >
                     <Trash2 size={18} />
                   </Button>
                 </div>
-                <Input {...register(`questions.${index}.question`, { required: true })} placeholder="Enter question" />
+                <Input {...register(`questions.${index}.question`, { required: true })} placeholder="Enter question" className="bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
                 <div className="grid grid-cols-2 gap-4">
                   {item.options.map((_, optIndex) => (
                     <Input
                       key={optIndex}
                       {...register(`questions.${index}.options.${optIndex}`, { required: true })}
                       placeholder={`Option ${optIndex + 1}`}
+                      className="bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     />
                   ))}
                 </div>
                 <div className="space-y-2">
-                  <Label>Correct Answer (Index 0-3)</Label>
-                  <Input {...register(`questions.${index}.correctAnswer`, { required: true })} type="number" min="0" max="3" />
+                  <Label className="text-gray-300">Correct Answer (Index 0-3)</Label>
+                  <Input {...register(`questions.${index}.correctAnswer`, { required: true })} type="number" min="0" max="3" className="bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
                 </div>
               </motion.div>
             ))}
