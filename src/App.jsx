@@ -72,7 +72,6 @@ function App() {
           />
         }
       />
-              <Route path="home" element={<StudentHomePage />} />
 
       <Route
         path="/"
@@ -84,13 +83,15 @@ function App() {
           />
         }
       >
-        <Route path="" element={<StudentHomePage />} />
+      <Route path="" element={<StudentHomePage />} />
+      <Route path="home" element={<StudentHomePage />} />
 
         <Route path="courses" element={<StudentViewCoursesPage />} />
         <Route
           path="course/details/:id"
           element={<StudentViewCourseDetailsPage />}
         />
+
         <Route path="payment-return" element={<PaymentReturnPage />} />
         <Route path="paypal-return" element={<PaypalPaymentReturnPage />} />
         <Route path="student-courses" element={<StudentCoursesPage />} />
