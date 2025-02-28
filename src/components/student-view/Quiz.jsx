@@ -26,20 +26,20 @@ const QuizList = () => {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
       <h2 className="text-3xl font-bold text-center mb-6">Available Quiz Sets</h2>
       {quizSets.length === 0 ? (
-        <p className="text-center text-gray-600">No quiz sets available</p>
+        <p className="text-center text-gray-400">No quiz sets available</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {quizSets.map((quiz) => (
             <Link to={`/quiz/${quiz._id}`} key={quiz._id}>
-              <div className="bg-white shadow-lg p-6 rounded-lg cursor-pointer hover:shadow-xl transition duration-300">
-                <h3 className="text-xl font-semibold">{quiz.title}</h3>
-                <p className="text-gray-700 mt-2">
+              <div className="bg-gray-800 shadow-lg p-6 rounded-lg cursor-pointer hover:shadow-xl hover:bg-gray-700 transition duration-300">
+                <h3 className="text-xl font-semibold text-gray-100">{quiz.title}</h3>
+                <p className="text-gray-400 mt-2">
                   <strong>Category:</strong> {quiz.category}
                 </p>
-                <p className="text-gray-600 mt-1">{quiz.description}</p>
+                <p className="text-gray-500 mt-1">{quiz.description}</p>
               </div>
             </Link>
           ))}
