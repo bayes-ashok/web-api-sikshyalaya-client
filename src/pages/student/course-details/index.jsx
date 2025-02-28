@@ -147,65 +147,88 @@ function StudentViewCourseDetailsPage() {
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-8 mt-8">
-        <main className="flex-grow">
-          <Card className="mb-8">
+        <main className="flex-grow bg-gray-100 p-6 rounded-lg">
+          {/* What You'll Learn */}
+          <Card className="p-5 shadow-md border border-gray-300 rounded-lg bg-white">
             <CardHeader>
-              <CardTitle>What you'll learn</CardTitle>
+              <CardTitle className="text-xl font-semibold text-gray-900">
+                What You'll Learn
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {studentViewCourseDetails?.objectives
                   .split(",")
                   .map((objective, index) => (
-                    <li key={index} className="flex items-start">
-                      <CheckCircle className="mr-2 h-5 w-5 text-green-500 flex-shrink-0" />
-                      <span>{objective}</span>
+                    <li
+                      key={index}
+                      className="flex items-start text-sm text-gray-800"
+                    >
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500 flex-shrink-0" />
+                      <span>{objective.trim()}</span>
                     </li>
                   ))}
               </ul>
             </CardContent>
           </Card>
-          <Card className="mb-8">
+
+          {/* Course Description */}
+          <Card className="p-5 shadow-md border border-gray-300 rounded-lg bg-white mt-5">
             <CardHeader>
-              <CardTitle>Course Description</CardTitle>
+              <CardTitle className="text-xl font-semibold text-gray-900">
+                Course Description
+              </CardTitle>
             </CardHeader>
-            <CardContent>{studentViewCourseDetails?.description}</CardContent>
+            <CardContent className="text-sm text-gray-800 leading-relaxed">
+              {studentViewCourseDetails?.description}
+            </CardContent>
           </Card>
-          <Card className="mb-8">
+
+          {/* Course Curriculum */}
+          <Card className="p-5 shadow-md border border-gray-300 rounded-lg bg-white mt-5">
             <CardHeader>
-              <CardTitle>Course Curriculum</CardTitle>
+              <CardTitle className="text-xl font-semibold text-gray-900">
+                Course Curriculum
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              {studentViewCourseDetails?.curriculum?.map(
-                (curriculumItem, index) => (
-                  <li
-                    className={`${
-                      curriculumItem?.freePreview
-                        ? "cursor-pointer"
-                        : "cursor-not-allowed"
-                    } flex items-center mb-4`}
-                    onClick={
-                      curriculumItem?.freePreview
-                        ? () => handleSetFreePreview(curriculumItem)
-                        : null
-                    }
-                  >
-                    {curriculumItem?.freePreview ? (
-                      <PlayCircle className="mr-2 h-4 w-4" />
-                    ) : (
-                      <Lock className="mr-2 h-4 w-4" />
-                    )}
-                    <span>{curriculumItem?.title}</span>
-                  </li>
-                )
-              )}
+              <ul className="space-y-3">
+                {studentViewCourseDetails?.curriculum?.map(
+                  (curriculumItem, index) => (
+                    <li
+                      key={index}
+                      className={`flex items-center p-2 rounded-md transition ${
+                        curriculumItem?.freePreview
+                          ? "cursor-pointer hover:bg-gray-200"
+                          : "cursor-not-allowed opacity-60"
+                      }`}
+                      onClick={
+                        curriculumItem?.freePreview
+                          ? () => handleSetFreePreview(curriculumItem)
+                          : null
+                      }
+                    >
+                      {curriculumItem?.freePreview ? (
+                        <PlayCircle className="mr-2 h-4 w-4 text-blue-500" />
+                      ) : (
+                        <Lock className="mr-2 h-4 w-4 text-gray-500" />
+                      )}
+                      <span className="text-sm text-gray-800">
+                        {curriculumItem?.title}
+                      </span>
+                    </li>
+                  )
+                )}
+              </ul>
             </CardContent>
           </Card>
         </main>
-        <aside className="w-full md:w-[500px]">
-          <Card className="sticky top-4">
+
+        <aside className="w-full md:w-[600px]">
+          <Card className="sticky top-4 shadow-lg border border-gray-300 rounded-lg bg-white">
             <CardContent className="p-6">
-              <div className="aspect-video mb-4 rounded-lg flex items-center justify-center">
+              {/* Video Section */}
+              <div className="aspect-video mb-4 rounded-lg overflow-hidden shadow-sm border border-gray-200 flex items-center justify-center bg-gray-50">
                 <VideoPlayer
                   url={
                     getIndexOfFreePreviewUrl !== -1
@@ -214,17 +237,21 @@ function StudentViewCourseDetailsPage() {
                         ].videoUrl
                       : ""
                   }
-                  width="450px"
-                  height="200px"
+                  width="100%"
+                  height="220px"
                 />
               </div>
-              <div className="mb-4">
-                <span className="text-3xl font-bold">
+
+              {/* Pricing */}
+              <div className="mb-5 text-center">
+                <span className="text-3xl font-bold text-gray-900">
                   ${studentViewCourseDetails?.pricing}
                 </span>
               </div>
-              <div className="text-center">
-                <h2 className="text-xl font-semibold text-gray-800">
+
+              {/* Payment Heading */}
+              <div className="text-center mb-5">
+                <h2 className="text-lg font-semibold text-gray-800">
                   Buy with
                 </h2>
                 <p className="text-sm text-gray-600">
@@ -232,71 +259,69 @@ function StudentViewCourseDetailsPage() {
                 </p>
               </div>
 
-                {/* Khalti Button as Image */}
-                <button
-                  onClick={async () => {
-                    const paymentPayload = {
-                      userId: auth?.user?._id,
-                      fName: auth?.user?.fName,
-                      email: auth?.user?.email,
-                      phone: "9800000001",
-                      orderStatus: "pending",
-                      paymentMethod: "khalti",
-                      paymentStatus: "initiated",
-                      orderDate: new Date().toISOString(),
-                      paymentId: "",
-                      payerId: "",
-                      instructorId: studentViewCourseDetails?.instructorId,
-                      instructorName: studentViewCourseDetails?.instructorName,
-                      courseImage: studentViewCourseDetails?.image,
-                      courseTitle: studentViewCourseDetails?.title,
-                      courseId: studentViewCourseDetails?._id,
-                      coursePricing: studentViewCourseDetails?.pricing,
-                    };
+              {/* Khalti Payment Button */}
+              <button
+                onClick={async () => {
+                  const paymentPayload = {
+                    userId: auth?.user?._id,
+                    fName: auth?.user?.fName,
+                    email: auth?.user?.email,
+                    phone: "9800000001",
+                    orderStatus: "pending",
+                    paymentMethod: "khalti",
+                    paymentStatus: "initiated",
+                    orderDate: new Date().toISOString(),
+                    paymentId: "",
+                    payerId: "",
+                    instructorId: studentViewCourseDetails?.instructorId,
+                    instructorName: studentViewCourseDetails?.instructorName,
+                    courseImage: studentViewCourseDetails?.image,
+                    courseTitle: studentViewCourseDetails?.title,
+                    courseId: studentViewCourseDetails?._id,
+                    coursePricing: studentViewCourseDetails?.pricing,
+                  };
 
-                    try {
-                      const response = await axios.post(
-                        "http://localhost:8000/student/order/create-khalti",
-                        paymentPayload
-                      );
-                      if (response.data.success) {
-                        window.location.href = response.data.payment_url; // Redirect to Khalti payment URL
-                      } else {
-                        alert("Payment initiation failed.");
-                      }
-                    } catch (error) {
-                      console.error(error);
-                      alert("An error occurred while processing paymenttt.");
+                  try {
+                    const response = await axios.post(
+                      "http://localhost:8000/student/order/create-khalti",
+                      paymentPayload
+                    );
+                    if (response.data.success) {
+                      window.location.href = response.data.payment_url; // Redirect to Khalti payment URL
+                    } else {
+                      alert("Payment initiation failed.");
                     }
-                  }}
-                  className="w-full bg-white p-4"
-                >
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Khalti_Digital_Wallet_Logo.png.jpg"
-                    alt="Khalti Logo"
-                    className="w-32 h-auto mx-auto cursor-pointer hover:opacity-80"
-                  />
-                </button>
+                  } catch (error) {
+                    console.error(error);
+                    alert("An error occurred while processing payment.");
+                  }
+                }}
+                className="w-auto h-auto mx-auto flex"
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Khalti_Digital_Wallet_Logo.png.jpg"
+                  alt="Khalti Logo"
+                  className="w-32 h-auto"
+                />
+              </button>
 
-                {/* OR Divider */}
-                <div className="flex items-center mb-5 justify-center relative">
-                  <hr className="w-full border-t border-gray-300" />
-                  <span className="absolute px-2 bg-white text-gray-500">
-                    OR
-                  </span>
-                </div>
+              {/* OR Divider */}
+              <div className="flex items-center my-5 justify-center relative">
+                <hr className="w-full border-t border-gray-300" />
+                <span className="absolute px-2 bg-white text-gray-500">OR</span>
+              </div>
 
-                {/* PayPal Button as Image */}
-                <button
-                  className="w-full mb-4 p-4 rounded-lg shadow-md"
-                  onClick={handleCreatePayment} 
-                >
-                  <img
-                    src="https://images.ctfassets.net/drk57q8lctrm/21FLkQ2lbOCWynXsDZvXO5/485a163f199ef7749b914e54d4dc3335/paypal-logo.webp"
-                    alt="PayPal Logo"
-                    className="w-32 h-auto mx-auto cursor-pointer hover:opacity-80"
-                  />
-                </button>
+              {/* PayPal Payment Button */}
+              <button
+                className="w-auto h-auto mx-auto flex"
+                onClick={handleCreatePayment}
+              >
+                <img
+                  src="https://images.ctfassets.net/drk57q8lctrm/21FLkQ2lbOCWynXsDZvXO5/485a163f199ef7749b914e54d4dc3335/paypal-logo.webp"
+                  alt="PayPal Logo"
+                  className="w-32 h-auto"
+                />
+              </button>
             </CardContent>
           </Card>
         </aside>

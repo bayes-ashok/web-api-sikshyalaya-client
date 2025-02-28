@@ -52,35 +52,27 @@ export const initialSignUpFormData = {
 
 export const languageOptions = [
   { id: "english", label: "English" },
-  { id: "spanish", label: "Spanish" },
-  { id: "french", label: "French" },
-  { id: "german", label: "German" },
-  { id: "chinese", label: "Chinese" },
-  { id: "japanese", label: "Japanese" },
-  { id: "korean", label: "Korean" },
-  { id: "portuguese", label: "Portuguese" },
-  { id: "arabic", label: "Arabic" },
-  { id: "russian", label: "Russian" },
+  { id: "nepali", label: "Nepali" },
 ];
 
 export const courseLevelOptions = [
-  { id: "beginner", label: "Beginner" },
-  { id: "intermediate", label: "Intermediate" },
-  { id: "advanced", label: "Advanced" },
+  { id: "under-secretary", label: "Under Secretary" },
+  { id: "section-officer", label: "Section Officer" },
+  { id: "nayab-subba", label: "Nayab Subba" },
+  { id: "kharidar", label: "Kharidar" }
 ];
 
 export const courseCategories = [
-  { id: "web-development", label: "Web Development" },
-  { id: "backend-development", label: "Backend Development" },
-  { id: "data-science", label: "Data Science" },
-  { id: "machine-learning", label: "Machine Learning" },
-  { id: "artificial-intelligence", label: "Artificial Intelligence" },
-  { id: "cloud-computing", label: "Cloud Computing" },
-  { id: "cyber-security", label: "Cyber Security" },
-  { id: "mobile-development", label: "Mobile Development" },
-  { id: "game-development", label: "Game Development" },
-  { id: "software-engineering", label: "Software Engineering" },
+  { id: "health-services", label: "Health Services" },
+  { id: "judicial-services", label: "Judicial Services" },
+  { id: "engineering-services", label: "Engineering Services" },
+  { id: "education-services", label: "Education Services" },
+  { id: "administrative-services", label: "Administrative Services" },
+  { id: "police-security-services", label: "Police and Security Services" },
+  { id: "foreign-affairs-services", label: "Foreign Affairs Services" },
+  { id: "miscellaneous-services", label: "Miscellaneous Services" }
 ];
+
 
 export const courseLandingPageFormControls = [
   {
