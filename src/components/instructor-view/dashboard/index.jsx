@@ -48,7 +48,7 @@ function InstructorDashboard({ listOfCourses }) {
     },
     {
       label: "Total Revenue",
-      value: `$${calculateTotalStudentsAndProfit().totalProfit}`,
+      value: `Rs. ${calculateTotalStudentsAndProfit().totalProfit}`,
     },
   ];
 
