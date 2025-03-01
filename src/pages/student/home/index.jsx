@@ -135,7 +135,7 @@ function StudentHomePage() {
                       {courseItem?.instructorName}
                     </p>
                     <p className="font-bold text-sm text-blue-600">
-                      ${courseItem?.pricing}
+                      Rs. {courseItem?.pricing}
                     </p>
                   </div>
                 </div>
