@@ -9,25 +9,28 @@ function CourseLanding() {
     useContext(InstructorContext);
 
   return (
-    <div className="p-2 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 rounded-lg">
-      <Card className="bg-white/10 backdrop-blur-md shadow-xl p-6 rounded-lg">
-        <CardHeader>
-          <CardTitle className="text-gray-100 text-xl font-semibold">
-            Course Landing Page
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <FormControls
-            formControls={courseLandingPageFormControls}
-            formData={courseLandingFormData}
-            setFormData={setCourseLandingFormData}
-            className="space-y-4"
-            inputClassName="w-full px-3 py-2 bg-gray-800 text-white text-sm border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-            selectClassName="w-full px-3 py-2 bg-gray-800 text-white text-sm border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <div className="p-8 min-h-screen bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-900">
+  <Card className="bg-white shadow-2xl p-6 rounded-xl">
+    <CardHeader>
+      <CardTitle className="text-gray-900 text-xl font-semibold">
+        Course Landing Page
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <FormControls
+        formControls={courseLandingPageFormControls}
+        formData={courseLandingFormData}
+        setFormData={setCourseLandingFormData}
+        className="space-y-6"
+        inputClassName="w-full px-4 py-3 bg-white text-gray-900 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 outline-none placeholder-gray-500 transition duration-300"
+        selectClassName="w-full px-4 py-3 bg-white text-gray-900 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 outline-none transition duration-300"
+        textareaClassName="w-full px-4 py-3 bg-white text-gray-900 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 outline-none placeholder-gray-500 transition duration-300"
+      />
+    </CardContent>
+  </Card>
+</div>
+
+
   );
 }
 

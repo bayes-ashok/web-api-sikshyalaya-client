@@ -29,7 +29,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
                 [getControlItem.name]: event.target.value,
               })
             }
-            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none placeholder-gray-400"
+            className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none placeholder-gray-500 transition duration-300"
           />
         );
         break;
@@ -44,13 +44,17 @@ function FormControls({ formControls = [], formData, setFormData }) {
             }
             value={currentControlItemValue}
           >
-            <SelectTrigger className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500">
+            <SelectTrigger className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition duration-300">
               <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 text-white border border-gray-600">
+            <SelectContent className="bg-white text-gray-900 border border-gray-300">
               {getControlItem.options && getControlItem.options.length > 0
                 ? getControlItem.options.map((optionItem) => (
-                    <SelectItem key={optionItem.id} value={optionItem.id} className="hover:bg-gray-700">
+                    <SelectItem
+                      key={optionItem.id}
+                      value={optionItem.id}
+                      className="hover:bg-gray-100"
+                    >
                       {optionItem.label}
                     </SelectItem>
                   ))
@@ -72,7 +76,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
                 [getControlItem.name]: event.target.value,
               })
             }
-            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none placeholder-gray-400"
+            className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none placeholder-gray-500 transition duration-300"
           />
         );
         break;
@@ -91,7 +95,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
                 [getControlItem.name]: event.target.value,
               })
             }
-            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none placeholder-gray-400"
+            className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none placeholder-gray-500 transition duration-300"
           />
         );
         break;
@@ -101,11 +105,11 @@ function FormControls({ formControls = [], formData, setFormData }) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {formControls.map((controlItem) => (
-        <div key={controlItem.name} className="space-y-1">
+        <div key={controlItem.name} className="space-y-2">
           {/* Fixed: Label is now lighter & more visible */}
-          <Label htmlFor={controlItem.name} className="text-gray-200 text-sm font-medium">
+          <Label htmlFor={controlItem.name} className="text-gray-700 text-sm font-medium">
             {controlItem.label}
           </Label>
           {renderComponentByType(controlItem)}

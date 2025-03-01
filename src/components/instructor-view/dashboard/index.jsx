@@ -43,58 +43,56 @@ function InstructorDashboard({ listOfCourses }) {
 
   const config = [
     {
-      icon: Users,
       label: "Total Students",
       value: calculateTotalStudentsAndProfit().totalStudents,
     },
     {
-      icon: DollarSign,
       label: "Total Revenue",
       value: `$${calculateTotalStudentsAndProfit().totalProfit}`,
     },
   ];
 
   return (
-    <div className="p-8 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100">
+    <div className="">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {config.map((item, index) => (
-          <Card
-            key={index}
-            className="bg-white/10 backdrop-blur-md shadow-xl p-6 rounded-lg"
-          >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-lg font-semibold text-gray-100">
+          <Card key={index} className="bg-white shadow-lg p-6 rounded-xl">
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
+              <CardTitle className="text-xl font-semibold text-gray-900">
                 {item.label}
               </CardTitle>
-              <item.icon className="h-6 w-6 text-gray-300" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{item.value}</div>
+              <div className="text-3xl font-bold text-gray-900">
+                {item.label === "Total Revenue(in Rs.)"
+                  ? `Rs. ${calculateTotalStudentsAndProfit().totalProfit}`
+                  : item.value}
+              </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Students List Table */}
-      <Card className="bg-white/10 backdrop-blur-md shadow-xl p-6 rounded-lg">
+      <Card className="bg-white shadow-lg p-6 rounded-xl">
         <CardHeader>
-          <CardTitle className="text-gray-100 text-2xl font-bold">
+          <CardTitle className="text-gray-900 text-2xl font-bold">
             Students List
           </CardTitle>
         </CardHeader>
-        <CardContent className="bg-white p-1 rounded">
+        <CardContent className="p-4 bg-white rounded-lg">
           <div className="overflow-x-auto">
-            <Table className="w-full border border-gray-700 rounded-lg overflow-hidden">
-              <TableHeader className="bg-gray-900 text-white">
+            <Table className="w-full border border-gray-300 rounded-lg">
+              <TableHeader className="bg-gray-100 text-gray-900">
                 <TableRow>
-                  <TableHead className="p-4 text-left text-white font-bold">
+                  <TableHead className="p-4 text-left font-bold">
                     Course Name
                   </TableHead>
-                  <TableHead className="p-4 text-left text-white font-bold">
+                  <TableHead className="p-4 text-left font-bold">
                     Student Name
                   </TableHead>
-                  <TableHead className="p-4 text-left text-white font-bold">
+                  <TableHead className="p-4 text-left font-bold">
                     Student Email
                   </TableHead>
                 </TableRow>
@@ -106,24 +104,24 @@ function InstructorDashboard({ listOfCourses }) {
                     (studentItem, index) => (
                       <TableRow
                         key={index}
-                        className={`border-b border-gray-700 ${
-                          index % 2 === 0 ? "bg-gray-700" : "bg-gray-800"
-                        } hover:bg-gray-600 transition`}
+                        className={`border-b border-gray-300 ${
+                          index % 2 === 0 ? "bg-gray-50" : "bg-gray-100"
+                        } hover:bg-gray-200 transition duration-300`}
                       >
-                        <TableCell className="p-4 font-medium text-gray-100">
+                        <TableCell className="p-4 text-gray-900">
                           {studentItem.courseTitle}
                         </TableCell>
-                        <TableCell className="p-4 text-gray-100">
+                        <TableCell className="p-4 text-gray-900">
                           {studentItem.studentName}
                         </TableCell>
-                        <TableCell className="p-4 text-gray-100">
+                        <TableCell className="p-4 text-gray-900">
                           {studentItem.studentEmail}
                         </TableCell>
                       </TableRow>
                     )
                   )
                 ) : (
-                  <TableRow className="bg-gray-800">
+                  <TableRow className="bg-gray-100">
                     <TableCell
                       colSpan="3"
                       className="p-4 text-center text-gray-400"

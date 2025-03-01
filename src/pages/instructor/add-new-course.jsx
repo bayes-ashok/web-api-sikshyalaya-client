@@ -96,47 +96,48 @@ function AddNewCoursePage() {
   }, [params?.courseId]);
 
   return (
-    <div className="p-8 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100">
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-100">Create a New Course</h1>
-        <Button
-          disabled={!validateFormData()}
-          className="text-sm tracking-wider font-bold px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-          onClick={handleCreateCourse}
-        >
-          SUBMIT
-        </Button>
-      </div>
+    <div className="p-8 min-h-screen bg-gray-50 text-gray-900">
+  {/* Header Section */}
+  <div className="flex justify-between items-center mb-6">
+    <h1 className="text-3xl font-extrabold text-gray-800">Create a New Course</h1>
+    <Button
+      disabled={!validateFormData()}
+      className="text-sm tracking-wider font-bold px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-md"
+      onClick={handleCreateCourse}
+    >
+      SUBMIT
+    </Button>
+  </div>
 
-      {/* Course Form Tabs */}
-      <Card className="bg-white/10 backdrop-blur-md shadow-xl p-6 rounded-lg">
-        <CardContent>
-          <Tabs defaultValue="curriculum" className="space-y-4">
-            <TabsList className="flex space-x-2 bg-gray-800 p-2 rounded-lg">
-              <TabsTrigger value="curriculum" className="p-3 text-gray-300 hover:bg-gray-700 rounded-md transition">
-                Curriculum
-              </TabsTrigger>
-              <TabsTrigger value="course-landing-page" className="p-3 text-gray-300 hover:bg-gray-700 rounded-md transition">
-                Course Landing Page
-              </TabsTrigger>
-              <TabsTrigger value="settings" className="p-3 text-gray-300 hover:bg-gray-700 rounded-md transition">
-                Settings
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="curriculum">
-              <CourseCurriculum />
-            </TabsContent>
-            <TabsContent value="course-landing-page">
-              <CourseLanding />
-            </TabsContent>
-            <TabsContent value="settings">
-              <CourseSettings />
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-    </div>
+  {/* Course Form Tabs */}
+  <Card className="bg-white shadow-lg p-6 rounded-lg border border-gray-200">
+    <CardContent>
+      <Tabs defaultValue="curriculum" className="space-y-4">
+        <TabsList className="flex space-x-2 bg-gray-100 p-2 rounded-lg border border-gray-300">
+          <TabsTrigger value="curriculum" className="p-3 text-gray-700 hover:bg-gray-200 rounded-md transition">
+            Curriculum
+          </TabsTrigger>
+          <TabsTrigger value="course-landing-page" className="p-3 text-gray-700 hover:bg-gray-200 rounded-md transition">
+            Course Landing Page
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="p-3 text-gray-700 hover:bg-gray-200 rounded-md transition">
+            Settings
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="curriculum">
+          <CourseCurriculum />
+        </TabsContent>
+        <TabsContent value="course-landing-page">
+          <CourseLanding />
+        </TabsContent>
+        <TabsContent value="settings">
+          <CourseSettings />
+        </TabsContent>
+      </Tabs>
+    </CardContent>
+  </Card>
+</div>
+
   );
 }
 

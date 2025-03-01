@@ -10,6 +10,9 @@ import { InstructorContext } from "@/context/instructor-context";
 import { fetchInstructorCourseListService } from "@/services";
 import { BarChart, Book, LogOut, List, Edit, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function InstructorDashboardPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -22,6 +25,34 @@ function InstructorDashboardPage() {
     const response = await fetchInstructorCourseListService();
     if (response?.success) setInstructorCoursesList(response?.data);
   }
+
+  async function handleDeleteQuiz(quizId) {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/instructor/quiz/delete/${quizId}`
+      );
+  
+      if (response.status === 200) {
+        // Remove the deleted quiz from the state
+        setQuizSets((prevQuizzes) => prevQuizzes.filter((quiz) => quiz._id !== quizId));
+  
+        toast.success("Delete successful! 🎉", { position: "top-right" });
+
+      }
+    } catch (error) {
+      console.error("Error deleting quiz", error);
+      toast.error("Failed to delete quiz. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  }
+  
 
   async function fetchQuizSets() {
     try {
@@ -56,44 +87,46 @@ function InstructorDashboardPage() {
       value: "quizzes",
       component: (
         <div>
-          <h2 className="text-2xl font-semibold text-gray-100 mb-4">All Quiz Sets</h2>
-          <Button 
-            className="mb-4 bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 px-4 py-2 rounded-lg"
+          <ToastContainer/>
+          <Button
+            className="mb-4 bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded-lg shadow-md"
             onClick={() => setActiveTab("add-quiz")}
           >
             + Add Quiz
           </Button>
-          <div className="border rounded-lg p-4  shadow-lg">
+          <div className="border border-gray-300 rounded-lg p-4 shadow-md bg-white">
             {quizSets.length === 0 ? (
-              <p className="text-gray-300">No quizzes found.</p>
+              <p className="text-gray-500">No quizzes found.</p>
             ) : (
               <table className="w-full border-collapse text-left">
                 <thead>
-                  <tr className="bg-white-800 text-white">
-                    <th className="p-3">Title</th>
-                    <th className="p-3">Category</th>
-                    <th className="p-3">Actions</th>
+                  <tr className="bg-gray-200 text-gray-700">
+                    <th className="p-3 border-b">Title</th>
+                    <th className="p-3 border-b">Category</th>
+                    <th className="p-3 border-b">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {quizSets.map((quiz, index) => (
-                    <tr 
-                      key={quiz._id} 
-                      className={`border-b border-gray-700 ${index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}`}
+                    <tr
+                      key={quiz._id}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-50" : "bg-gray-100"
+                      } hover:bg-gray-200 transition`}
                     >
-                      <td className="p-3 text-gray-100">{quiz.title}</td>
-                      <td className="p-3 text-gray-100">{quiz.category}</td>
+                      <td className="p-3 text-gray-800">{quiz.title}</td>
+                      <td className="p-3 text-gray-800">{quiz.category}</td>
                       <td className="p-3 flex gap-2">
-                        <Button 
-                          className="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-md"
+                        <Button
+                          className="bg-yellow-400 hover:bg-yellow-500 text-white p-2 rounded-md shadow-sm"
                           onClick={() => setActiveTab("edit-quiz")}
                         >
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button 
-                          className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-md"
-                          onClick={() => console.log("Delete quiz", quiz._id)}
-                        >
+                        <Button
+                          className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-md shadow-sm"
+                          onClick={() => handleDeleteQuiz(quiz._id)}
+                          >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </td>
@@ -111,7 +144,7 @@ function InstructorDashboardPage() {
       label: "Logout",
       value: "logout",
       component: null,
-    }
+    },
   ];
 
   function handleLogout() {
@@ -120,18 +153,20 @@ function InstructorDashboardPage() {
   }
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100">
+    <div className="flex h-screen bg-gray-50 text-gray-900">
       {/* Sidebar - Fixed & Always Visible */}
-      <motion.aside 
-        className="w-72 bg-white/10 backdrop-blur-md shadow-xl h-full p-6 rounded-r-2xl"
-      >
-        <h2 className="text-2xl font-bold mb-6">Instructor Panel</h2>
+      <motion.aside className="w-72 bg-white shadow-xl h-full p-6 rounded-r-2xl border-r border-gray-300">
+        <h2 className="text-2xl font-semibold mb-6 text-gray-900">
+          Instructor Panel
+        </h2>
         <nav className="space-y-2">
           {menuItems.map((menuItem) => (
             <Button
               key={menuItem.value}
               className={`w-full flex items-center gap-3 p-3 rounded-lg transition ${
-                activeTab === menuItem.value ? "bg-blue-500 text-white" : "bg-gray-700 hover:bg-gray-600"
+                activeTab === menuItem.value
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-300 text-gray-900 hover:bg-gray-400"
               }`}
               onClick={
                 menuItem.value === "logout"
@@ -139,7 +174,9 @@ function InstructorDashboardPage() {
                   : () => setActiveTab(menuItem.value)
               }
             >
-              {menuItem.icon && <menuItem.icon className="w-5 h-5" />}
+              {menuItem.icon && (
+                <menuItem.icon className="w-5 h-5 text-gray-900" />
+              )}
               {menuItem.label}
             </Button>
           ))}
@@ -147,9 +184,8 @@ function InstructorDashboardPage() {
       </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-12 overflow-y-auto">
+      <main className="flex-1 p-12 overflow-y-auto bg-gray-100">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-gray-100">Dashboard</h1>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             {menuItems.map((menuItem) => (
               <TabsContent value={menuItem.value} key={menuItem.value}>
