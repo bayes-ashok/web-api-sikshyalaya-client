@@ -147,7 +147,7 @@ function StudentViewCourseDetailsPage() {
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-8 mt-8">
-        <main className="flex-grow bg-gray-100 p-6 rounded-lg">
+        <main className="flex-1 bg-gray-100 p-6 rounded-lg">
           {/* What You'll Learn */}
           <Card className="p-5 shadow-md border border-gray-300 rounded-lg bg-white">
             <CardHeader>
@@ -158,7 +158,7 @@ function StudentViewCourseDetailsPage() {
             <CardContent>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {studentViewCourseDetails?.objectives
-                  .split(",")
+                  .split(";")
                   .map((objective, index) => (
                     <li
                       key={index}
@@ -224,7 +224,7 @@ function StudentViewCourseDetailsPage() {
           </Card>
         </main>
 
-        <aside className="w-full md:w-[600px]">
+        <aside className="md:w-1/3 min-w-[300px] max-w-md">
           <Card className="sticky top-4 shadow-lg border border-gray-300 rounded-lg bg-white">
             <CardContent className="p-6">
               {/* Video Section */}
@@ -245,7 +245,7 @@ function StudentViewCourseDetailsPage() {
               {/* Pricing */}
               <div className="mb-5 text-center">
                 <span className="text-3xl font-bold text-gray-900">
-                  ${studentViewCourseDetails?.pricing}
+                  Rs. {studentViewCourseDetails?.pricing}
                 </span>
               </div>
 
@@ -326,6 +326,7 @@ function StudentViewCourseDetailsPage() {
           </Card>
         </aside>
       </div>
+
       <Dialog
         open={showFreePreviewDialog}
         onOpenChange={() => {
