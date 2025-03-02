@@ -1,17 +1,11 @@
-import CommonForm from "@/components/common-form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { signInFormControls, signUpFormControls } from "@/config";
-import { AuthContext } from "@/context/auth-context";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, TvMinimalPlay, Sun, Moon, ClipboardList, Menu } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { AuthContext } from "@/context/auth-context";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import CommonForm from "@/components/common-form";
+import { signInFormControls, signUpFormControls } from "@/config";
 
 function AuthPage() {
   const [activeTab, setActiveTab] = useState("signin");
@@ -23,6 +17,9 @@ function AuthPage() {
     handleRegisterUser,
     handleLoginUser,
   } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function handleTabChange(value) {
     setActiveTab(value);
@@ -47,12 +44,26 @@ function AuthPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-100 to-gray-50">
-      <header className="px-6 lg:px-10 h-16 flex items-center border-b bg-white shadow-md">
-        <Link to={"/"} className="flex items-center space-x-3">
-          <GraduationCap className="h-9 w-9 text-blue-600" />
-          <span className="font-bold text-2xl text-gray-800">LMS Learn</span>
-        </Link>
+      <header className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg relative">
+        {/* Logo Section */}
+        <div className="flex items-center space-x-4">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
+            <Menu className="w-7 h-7" />
+          </button>
+          <Link to="/home" className="flex items-center hover:text-gray-200 transition-all">
+            <GraduationCap className="h-9 w-9 mr-3" />
+            <span className="font-extrabold text-3xl">Sikshyalaya</span>
+          </Link>
+        </div>
+
+        {/* User Actions */}
+        <div className="flex items-center space-x-4">
+          <button className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition transform hover:scale-110">
+            <Moon className="w-7 h-7" />
+          </button>
+        </div>
       </header>
+
       <div className="flex items-center justify-center mt-3">
         <div className="w-full max-w-lg bg-gray-50 p-3 rounded-2xl shadow-lg border border-gray-200">
           <Tabs
@@ -86,7 +97,7 @@ function AuthPage() {
                 <CardContent className="space-y-4">
                   <CommonForm
                     formControls={signInFormControls}
-                    buttonText={"Sign In"}
+                    buttonText={"Login"}
                     formData={signInFormData}
                     setFormData={setSignInFormData}
                     isButtonDisabled={!checkIfSignInFormIsValid()}

@@ -55,7 +55,6 @@ function StudentViewCommonHeader() {
       {/* User Actions */}
       <div className="flex items-center space-x-4">
         <button
-          onClick={() => alert("Dark mode toggled! (Not really 😉)")}
           className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition transform hover:scale-110"
         >
           <Moon className="w-7 h-7" />
